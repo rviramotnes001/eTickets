@@ -52,15 +52,12 @@ namespace eTickets.Migrations
                     b.Property<int>("ActorId")
                         .HasColumnType("int");
 
-                    b.Property<int>("MovideId")
+                    b.Property<int>("MovieId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ActorId1")
-                        .HasColumnType("int");
+                    b.HasKey("ActorId", "MovieId");
 
-                    b.HasKey("ActorId", "MovideId");
-
-                    b.HasIndex("ActorId1");
+                    b.HasIndex("MovieId");
 
                     b.ToTable("Actors_Movies");
                 });
@@ -164,15 +161,15 @@ namespace eTickets.Migrations
 
             modelBuilder.Entity("eTickets.Models.Actor_Movie", b =>
                 {
-                    b.HasOne("eTickets.Models.Movie", "Movie")
+                    b.HasOne("eTickets.Models.Actor", "Actor")
                         .WithMany("Actors_Movies")
                         .HasForeignKey("ActorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eTickets.Models.Actor", "Actor")
+                    b.HasOne("eTickets.Models.Movie", "Movie")
                         .WithMany("Actors_Movies")
-                        .HasForeignKey("ActorId1")
+                        .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
