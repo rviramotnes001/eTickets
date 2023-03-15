@@ -13,6 +13,6 @@ namespace eTickets.Data.Services
         //Update Actor
         Task<Actor> UpdateAsync(int id, Actor newActor);
         //Delete Actor
-        void Delete(int id);
+        Task DeleteAsync(int id);
     }
 }
