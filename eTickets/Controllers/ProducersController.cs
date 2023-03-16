@@ -1,4 +1,6 @@
 ﻿using eTickets.Data;
+using eTickets.Data.Services;
+using eTickets.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,17 +8,36 @@ namespace eTickets.Controllers
 {
     public class ProducersController : Controller
     {
-        private readonly AppDbContext _context;
-
-        public ProducersController(AppDbContext context)
+        //DB access
+        private readonly IProducersService _producersService;
+        //Injected to constructor
+        public ProducersController(IProducersService service)
         {
-            _context = context;
+            _producersService = service;
         }
 
         public async Task<IActionResult> Index()
         {
-            var allProducers = await _context.Producers.ToListAsync();
-            return View(allProducers);
+            var data = await _producersService.GetAllAsync();
+            return View(data);
         }
+
+        //Get: Producers/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([Bind("Fullname,ProfilePictureUrl,Bio")]Producer producer)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(producer);
+            }
+            await _producersService.AddAsync(producer);
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }
