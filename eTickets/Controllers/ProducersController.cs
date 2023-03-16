@@ -39,5 +39,13 @@ namespace eTickets.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        //Get: Producer/Detail/1
+        public async Task<IActionResult> Details(int id)
+        {
+            var producerDetail = await _producersService.GetByIdAsync(id);
+            if(producerDetail == null) { return View("NoFound"); }
+            return View(producerDetail);
+        }
+
     }
 }
