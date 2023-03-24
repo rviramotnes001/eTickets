@@ -20,6 +20,23 @@ namespace eTickets.Controllers
             return View(allCinemas);
         }
 
+        //Get: Cinema/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([Bind("Name,Logo,Description")]Cinema cinema)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View(cinema);
+            }
+            await _cinemasService.AddAsync(cinema);
+            return RedirectToAction(nameof(Index));
+        }
+
         //Get: Cinema/Details/1
         public async Task<IActionResult> Details(int id)
         {
